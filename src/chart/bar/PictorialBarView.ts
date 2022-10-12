@@ -70,6 +70,7 @@ interface SymbolMeta {
     symbolSize: number[]
     symbolScale: number[]
     symbolRepeat: PictorialBarDataItemOption['symbolRepeat']
+    symbolAspectRatio: [number, number]
     symbolClip: PictorialBarDataItemOption['symbolClip']
     symbolRepeatDirection: PictorialBarDataItemOption['symbolRepeatDirection']
 
@@ -261,6 +262,7 @@ function getSymbolMeta(
         symbolRepeat: symbolRepeat,
         symbolRepeatDirection: itemModel.get('symbolRepeatDirection'),
         symbolPatternSize: symbolPatternSize,
+        symbolAspectRatio: itemModel.get('symbolAspectRatio'),
         rotation: rotation,
         animationModel: isAnimationEnabled ? itemModel : null,
         hoverScale: isAnimationEnabled && itemModel.get(['emphasis', 'scale']),
@@ -381,6 +383,12 @@ function prepareSymbolSize(
         parsedSymbolSize[valueDim.index],
         symbolRepeat ? categorySize : Math.abs(boundingLength)
     );
+
+    if (outputSymbolMeta.symbolAspectRatio) {
+        const [targetAxis, value] = outputSymbolMeta.symbolAspectRatio;
+        const sourceAxis = targetAxis === categoryDim.index ? valueDim.index : categoryDim.index;
+        parsedSymbolSize[targetAxis] = parsedSymbolSize[sourceAxis] * value;
+    }
 
     outputSymbolMeta.symbolSize = parsedSymbolSize;
 

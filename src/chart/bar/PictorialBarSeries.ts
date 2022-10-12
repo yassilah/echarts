@@ -88,6 +88,15 @@ interface PictorialBarSeriesSymbolOption {
     symbolBoundingData?: number | number[]
 
     symbolPatternSize?: number
+
+    /**
+     * Fixed aspect ratio of the symbol.
+     * The first value is the axis index to which the ratio
+     * should be applied to, and the second value is the ratio.
+     * If axis `0` is the x-axis, then the ratio will determine
+     * the width of the symbol.
+     */
+    symbolAspectRatio?: [number, number]
 }
 
 
